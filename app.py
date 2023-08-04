@@ -1,26 +1,15 @@
-# Imports
-import os
-
-import mysql.connector
-from dotenv import load_dotenv
 from flask import Flask
+from Routes.routes import init_app
+from Models.mysql_connect import Conexao
 
-from routes import init_app
-
-# Conexão com o Banco de Dados
-config_db = load_dotenv('.env')
-mycon = mysql.connector.connect(
-    host=os.environ['mysql_host'],
-    user=os.environ['mysql_user'],
-    password=os.environ['mysql_pass'],
-    database=os.environ['mysql_db'],
-)
+# Instância de conexão com o Banco de Dados
+conexao = Conexao().conection_start()
 
 
-# Instâncias / Configurações
+# Instâncias da Aplicação
 app = Flask(__name__)
-init_app(app, mycon)
+init_app(app, conexao)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
